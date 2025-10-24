@@ -22,7 +22,7 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <div className="relative w-full overflow-hidden rounded-xl">
-      <div className="aspect-video bg-black/40 relative overflow-hidden rounded-xl border border-white/20">
+      <div className="w-full bg-black/40 relative overflow-hidden rounded-xl border border-white/20 h-72 sm:h-80 md:h-96">
         {images.map((image, index) => (
           <div
             key={index}
@@ -40,14 +40,16 @@ export default function Gallery({ images }: GalleryProps) {
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-full object-contain cursor-pointer"
+                  loading="lazy"
+                  className="w-full h-full object-cover cursor-pointer"
                 />
               </a>
             ) : (
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-contain"
+                loading="lazy"
+                className="w-full h-full object-cover"
               />
             )}
             {image.title && (

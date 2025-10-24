@@ -9,24 +9,13 @@ import AuthorSection from '../components/AuthorSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Gallery from '../components/Gallery';
 
-// Los datos de libros ahora se importan desde `src/data/books.ts`
-
 // Datos para la galería
 const galleryImages = [
   {
-    src: 'https://images.unsplash.com/photo-1603162617030-7a47b851d577?auto=format&fit=crop&q=80&w=800',
-    alt: 'Firma de libros en la Feria del Libro',
-    title: 'Firma de libros en la Feria del Libro 2025',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1534278272449-9449ba183e4e?auto=format&fit=crop&q=80&w=800',
-    alt: 'Convención de cómics y fantasía',
-    title: 'Participación en la Comic Con 2025',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1590795769516-177809072b6a?auto=format&fit=crop&q=80&w=800',
-    alt: 'Club de lectura',
-    title: 'Club de lectura virtual - Marzo 2025',
+    src: '/custodio-entrevista.jpeg',
+    alt: 'Entrevista en La Revuelta (RTVE) con Custodio',
+    title: 'Entrevista en La Revuelta (RTVE) — 09/10/2025',
+    href: 'https://www.rtve.es/television/20251009/escritor-custodio-perez-revuelta-trabajar-campo-escribir-nueve-libros/16764376.shtml',
   },
 ];
 ---
@@ -45,7 +34,7 @@ const galleryImages = [
             Eventos y Galerías
           </h2>
           <p class="text-xl text-gray-700 max-w-3xl mx-auto">
-            Momentos especiales con mis lectores y en eventos del mundo friki.
+            Momentos especiales y en eventos.
           </p>
         </div>
         <div class="max-w-4xl mx-auto">

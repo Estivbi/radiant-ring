@@ -13,7 +13,6 @@ const { slug } = Astro.params;
 const book = books.find((b) => b.id === slug);
 
 if (!book) {
-  // devolver 404 sencillo
   Astro.response.status = 404;
 }
 
@@ -44,26 +43,7 @@ const jsonLd = book
   : null;
 ---
 
-<head>
-  <title>{metaTitle}</title>
-  <meta name="description" content={metaDescription} />
-  {book ? (
-    <>
-      <meta property="og:type" content="book" />
-      <meta property="og:title" content={book.title} />
-      <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={book.cover} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={book.title} />
-      <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={book.cover} />
-      <link rel="canonical" href={`/books/${book.id}`} />
-      {jsonLd ? <script type="application/ld+json">{JSON.stringify(jsonLd)}</script> : null}
-    </>
-  ) : null}
-</head>
-
-<Layout title={book ? metaTitle : 'Libro no encontrado'} description={metaDescription}>
+<Layout title={book ? metaTitle : 'Libro no encontrado'} description={metaDescription} metaImage={book ? book.cover : undefined} jsonLd={jsonLd}>
   <Navbar />
   {book ? (
     <main class="pt-24">

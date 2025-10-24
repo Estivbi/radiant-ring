@@ -13,7 +13,7 @@ export const books: Book[] = [
     id: 'granada-oscura',
     title: 'Granada Oscura',
     cover: '/granada-oscura.png',
-  description: `Granada oculta más de lo que puedes imaginar...
+    description: `Granada oculta más de lo que puedes imaginar...
 
 Desde los oscuros corredores de la justicia en Galicia hasta las misteriosas y laberínticas calles de Granada, Juan, un perspicaz detective, se halla inmerso en una ola de crimenes escalofriantes.
 
@@ -60,8 +60,7 @@ Siente la magia de esta ciudad. No hay pausas en este thriller. Solo hay una reg
     id: 'unas-navidades-diferentes',
     title: 'Unas navidades diferentes',
     cover: '/unas-navidades-diferentes.jpg',
-    description:
-      'Una historia entrañable y diferente para disfrutar la Navidad desde otra perspectiva. Custodio J. Pérez nos invita a vivir unas fiestas llenas de emociones, sorpresas y reflexión.',
+    description: `En esta obra dos escritores han buceado desde sus particulares miradas, en las señaladas fechas de las entrañables Navidades para encontrar lo que se esconde tras el espumillón, el champán y las guirnaldas. Un esmerado trabajo en el que han escrudiñado más allá de la pátina que cubre las vivencias, las emociones y el paso del tiempo, en busca de lo sé que oculta dentro la realidad de lo que sucede en el corazón de una familia. Encontrarás los restos de la añoranza que sienten por aquellos que ya no están, aunque permanecen en el recuerdo de quienes los han querido. La sorpresa y la inocencia de una niña que disfruta por primera vez de estas fiestas desterrada la soledad de los años anteriores, despertará en ti la emoción y la ternura. Recorrerás en estas líneas los silencios provocados por comportamientos erróneos, el daño que causa la negligencia, y como consecuencia la decepción vivir fingiendo ser quién no eres para los demás, pero sobre todo en sí mismo. No podrás dejar a un lado los resultados a los que la manipulación de lo externo, somete a uno de los personajes. El cual vive más pendiente de efímeras apariencias, que de interiores fortalezas. Pagará por ello un tributo emocional nada baladí. La sombra de una relación inapropiada sobrevuela la paz de esta familia. Cuestiona el hastío que el paso de tiempo puede provocar cuando el amor se deja arrastrar por lo cotidiano, y no se esfuerza en su esencia. Pero también dejará a la intemperie la conciencia de la partícipe. Hay conductas equivocadas del pretérito que dejan una huella indeleble para el resto de la vida. Una advertencia para no volver a traspasar líneas peligrosas. Todo este relato está aderezado por los símbolos habituales de estos días. Las luces, la música, los escaparates sembrados de rojos y dorados, las comidas suculentas, el tiempo compartido, quizá un consumismo exacerbado, y por supuesto la llegada de los Reyes Magos.`,
     price: 12.5,
     buyLink:
       'https://www.amazon.es/Unas-navidades-diferentes-Custodio-P%C3%A9rez-ebook/dp/B0DPJ1RV16?ref_=ast_author_dp&th=1&psc=1',

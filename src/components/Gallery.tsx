@@ -4,6 +4,7 @@ interface GalleryProps {
   images: {
     src: string;
     alt: string;
+    href?: string;
     title?: string;
   }[];
 }
@@ -29,11 +30,26 @@ export default function Gallery({ images }: GalleryProps) {
               index === activeIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
           >
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="w-full h-full object-contain"
-            />
+            {image.href ? (
+              <a
+                href={image.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full h-full"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-contain cursor-pointer"
+                />
+              </a>
+            ) : (
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-full object-contain"
+              />
+            )}
             {image.title && (
               <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
                 <p className="text-lg font-bold">{image.title}</p>

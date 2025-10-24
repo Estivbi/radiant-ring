@@ -4,6 +4,8 @@ import '../styles/global.css';
 interface Props {
 	title?: string;
 	description?: string;
+	metaImage?: string;
+	jsonLd?: any;
 }
 
 const { 
@@ -21,6 +23,16 @@ const {
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{title}</title>
+
+		{Astro.props.metaImage ? <meta property="og:image" content={Astro.props.metaImage} /> : null}
+		<meta property="og:title" content={Astro.props.title} />
+		<meta property="og:description" content={Astro.props.description} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={Astro.props.title} />
+		<meta name="twitter:description" content={Astro.props.description} />
+		{Astro.props.metaImage ? <meta name="twitter:image" content={Astro.props.metaImage} /> : null}
+
+		{Astro.props.jsonLd ? <script type="application/ld+json">{JSON.stringify(Astro.props.jsonLd)}</script> : null}
 		<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 	</head>
 	<body class="bg-gradient-to-b from-gray-100 via-gray-300 to-gray-500 text-gray-900 min-h-screen flex flex-col">

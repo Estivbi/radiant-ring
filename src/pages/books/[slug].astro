@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import BookView from '../../components/BookView.astro';
+import { books } from '../../data/books';
+
+export async function getStaticPaths() {
+  return books.map((b) => ({ params: { slug: b.id } }));
+}
+
+const { slug } = Astro.params;
+
+const book = books.find((b) => b.id === slug);
+
+if (!book) {
+  // devolver 404 sencillo
+  Astro.response.status = 404;
+}
+
+// Metadatos y JSON-LD para SEO
+const metaTitle = book ? `${book.title} — Custodio José Pérez Pérez` : 'Libro no encontrado';
+const metaDescription = book
+  ? (book.description.length > 160 ? book.description.slice(0, 157) + '...' : book.description)
+  : 'Libro no encontrado.';
+
+const jsonLd = book
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Book',
+      name: book.title,
+      description: book.description,
+      image: book.cover,
+      author: {
+        '@type': 'Person',
+        name: 'Custodio José Pérez Pérez',
+      },
+      offers: book.buyLink
+        ? {
+            '@type': 'Offer',
+            url: book.buyLink,
+          }
+        : undefined,
+    }
+  : null;
+---
+
+<head>
+  <title>{metaTitle}</title>
+  <meta name="description" content={metaDescription} />
+  {book ? (
+    <>
+      <meta property="og:type" content="book" />
+      <meta property="og:title" content={book.title} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:image" content={book.cover} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={book.title} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={book.cover} />
+      <link rel="canonical" href={`/books/${book.id}`} />
+      {jsonLd ? <script type="application/ld+json">{JSON.stringify(jsonLd)}</script> : null}
+    </>
+  ) : null}
+</head>
+
+<Layout title={book ? metaTitle : 'Libro no encontrado'} description={metaDescription}>
+  <Navbar />
+  {book ? (
+    <main class="pt-24">
+      <BookView book={book} />
+    </main>
+  ) : (
+    <main class="p-12 text-center text-gray-800">
+      <h1 class="text-3xl font-bold mb-4">Libro no encontrado</h1>
+      <p>Lo sentimos, no hemos encontrado el libro solicitado.</p>
+    </main>
+  )}
+</Layout>

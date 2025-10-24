@@ -29,7 +29,7 @@ const { books } = Astro.props;
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {books.map((book) => (
           <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-xl overflow-hidden border border-gray-800 shadow-lg group transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-          <div class="relative overflow-hidden aspect-[2/3]">
+          <div class="relative overflow-hidden aspect-[4/5]">
             <img 
               src={book.cover} 
               alt={`Portada del libro ${book.title}`}

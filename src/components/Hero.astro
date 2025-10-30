@@ -1,41 +1,35 @@
 ---
 ---
 
-<section class="relative min-h-screen flex items-center overflow-hidden pt-20">
+<section id="hero-section" class="relative min-h-screen flex items-center overflow-hidden pt-20 bg-gradient-to-br from-gray-900 via-blue-950 via-gray-950 to-black transition-opacity duration-500">
   <!-- Estrellas y elementos decorativos de fondo -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="stars"></div>
-    <div class="stars2"></div>
-    <div class="stars3"></div>
-    
-    <!-- Planetas y elementos decorativos -->
-    <div class="absolute top-1/4 right-10 w-32 h-32 rounded-full bg-purple-500/20 blur-xl"></div>
-    <div class="absolute bottom-1/4 left-10 w-40 h-40 rounded-full bg-blue-500/20 blur-xl"></div>
-    <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-green-500/20 blur-lg"></div>
+  <!-- Fondo animado tipo neón/partículas -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <canvas id="neon-bg" class="w-full h-full absolute inset-0"></canvas>
+    <!-- Planetas decorativos en azul/violeta/gris -->
+    <div class="absolute top-1/4 right-10 w-32 h-32 rounded-full bg-indigo-500/30 blur-2xl shadow-[0_0_60px_20px_rgba(99,102,241,0.5)]"></div>
+    <div class="absolute bottom-1/4 left-10 w-40 h-40 rounded-full bg-blue-500/30 blur-2xl shadow-[0_0_60px_20px_rgba(59,130,246,0.4)]"></div>
+    <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-gray-400/20 blur-xl shadow-[0_0_40px_10px_rgba(156,163,175,0.2)]"></div>
   </div>
 
   <div class="container mx-auto p-4 md:p-8 z-10 relative">
     <div class="grid md:grid-cols-2 gap-8 items-center">
       <div>
-  <h1 class="text-4xl md:text-6xl lg:text-7xl mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-700 to-gray-400">
-          Custodio José<br />
-          <span class="text-gray-700">Pérez Pérez</span>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl mb-6 text-white font-bold drop-shadow-[0_0_8px_rgba(99,102,241,0.4)] animate-glow-soft text-center md:text-left">
+          Custodio José <span class="text-indigo-300 drop-shadow-[0_0_6px_rgba(99,102,241,0.3)]">Pérez Pérez</span>
         </h1>
-  <p class="text-xl md:text-2xl mb-8 text-gray-700">
-          Escritor literario.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="/#libros" class="inline-block p-4 rounded-full font-bold bg-gradient-to-r from-gray-900 to-gray-500 text-white hover:from-gray-700 hover:to-gray-400">
+        <div class="flex flex-wrap gap-3 mt-4 justify-center md:justify-start">
+          <a href="/#libros" class="inline-block px-5 py-2 rounded-lg font-medium text-base bg-gradient-to-r from-indigo-700 to-indigo-400 text-white shadow-[0_0_8px_1px_rgba(99,102,241,0.4)] hover:from-indigo-800 hover:to-indigo-500 transition-all">
             Ver libros
           </a>
-          <a href="/#autor" class="inline-block p-4 rounded-full font-bold bg-gradient-to-r from-gray-900 to-gray-500 text-white hover:from-gray-700 hover:to-gray-400">
+          <a href="/#autor" class="inline-block px-5 py-2 rounded-lg font-medium text-base border border-gray-400 text-gray-100 bg-transparent hover:bg-gray-800/60 hover:border-gray-200 transition-all duration-200">
             Conoce al autor
           </a>
         </div>
       </div>
       <div class="flex justify-center p-20">
         <div class="relative">
-          <div class="w-64 h-80 md:w-80 md:h-96 bg-gradient-to-b from-gray-900 to-gray-500 rounded-xl shadow-xl transform rotate-3">
+          <div class="w-64 h-80 md:w-80 md:h-96 bg-gradient-to-b from-gray-900 to-gray-500 rounded-xl shadow-xl transform rotate-3 border-4 border-indigo-400/40 shadow-[0_0_40px_10px_rgba(99,102,241,0.2)]">
             <img 
               src="/custodio.png" 
               alt="Custodio José Pérez Pérez" 
@@ -43,47 +37,76 @@
               style="z-index:1;" 
             />
           </div>
-          <!-- Elementos decorativos -->
-          <div class="absolute -bottom-5 -left-5 w-24 h-24 bg-gray-400/30 rounded-full blur-md"></div>
-          <div class="absolute -top-5 -right-5 w-20 h-20 bg-gray-700/30 rounded-full blur-md"></div>
+          <!-- Sin elementos decorativos verdes -->
         </div>
       </div>
     </div>
   </div>
+
 </section>
+<script is:inline>
+// Efecto reveal mejorado: el Hero se desvanece al hacer scroll y deja ver el contenido de la web
+window.addEventListener('scroll', () => {
+  const hero = document.getElementById('hero-section');
+  if (!hero) return;
+  const rect = hero.getBoundingClientRect();
+  // Cuando el Hero sale de la pantalla, opacidad baja
+  let progress = Math.min(1, Math.max(0, -rect.top / (rect.height * 0.7)));
+  hero.style.opacity = 1 - progress;
+});
+</script>
+
 
 <style>
-  /* Animación de estrellas */
-  .stars, .stars2, .stars3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+  /* Glow animado más suave para el título */
+  @keyframes glow-soft {
+    0%, 100% { text-shadow: 0 0 8px #22c55e55, 0 0 16px #22c55e22; }
+    50% { text-shadow: 0 0 16px #22c55e55, 0 0 24px #22c55e33; }
   }
-  
-  .stars {
-    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iYSIgY3g9IjAuNSIgY3k9IjAuNSIgcj0iMC41IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSI5OSUiIHk9Ijk5JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9Ijk5JSIgeT0iMSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIxJSIgeT0iOTklIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMSUiIHk9IjElIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iOTAlIiB5PSI5MCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI5MCUiIHk9IjEwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjEwJSIgeT0iOTAlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMTAlIiB5PSIxMCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI4MCUiIHk9IjgwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjgwJSIgeT0iMjAlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMjAlIiB5PSI4MCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIyMCUiIHk9IjIwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjcwJSIgeT0iNzAlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNzAlIiB5PSIzMCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIzMCUiIHk9IjcwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjMwJSIgeT0iMzAlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNjAlIiB5PSI2MCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI2MCUiIHk9IjQwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjQwJSIgeT0iNjAlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNDAlIiB5PSI0MCUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI1MCUiIHk9IjUwJSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjwvc3ZnPg==') repeat;
-    animation: stars 120s linear infinite;
-  }
-  
-  .stars2 {
-    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iYSIgY3g9IjAuNSIgY3k9IjAuNSIgcj0iMC41IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSI5NSUiIHk9Ijk1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9Ijk1JSIgeT0iNSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI1JSIgeT0iOTUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNSUiIHk9IjUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iODUlIiB5PSI4NSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI4NSUiIHk9IjE1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjE1JSIgeT0iODUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMTUlIiB5PSIxNSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI3NSUiIHk9Ijc1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9Ijc1JSIgeT0iMjUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMjUlIiB5PSI3NSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIyNSUiIHk9IjI1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjY1JSIgeT0iNjUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNjUlIiB5PSIzNSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIzNSUiIHk9IjY1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjM1JSIgeT0iMzUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNTUlIiB5PSI1NSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSI1NSUiIHk9IjQ1JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9IjQ1JSIgeT0iNTUlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iNDUlIiB5PSI0NSUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=') repeat;
-    animation: stars 180s linear infinite;
-  }
-  
-  .stars3 {
-    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0iYSIgY3g9IjAuNSIgY3k9IjAuNSIgcj0iMC41IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSI5NyUiIHk9Ijk3JSIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNhKSIvPjxyZWN0IHg9Ijk3JSIgeT0iMyUiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjYSkiLz48cmVjdCB4PSIzJSIgeT0iOTclIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PHJlY3QgeD0iMyUiIHk9IjMlIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+') repeat;
-    animation: stars 240s linear infinite;
-  }
-  
-  @keyframes stars {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+  .animate-glow-soft {
+    animation: glow-soft 2.5s ease-in-out infinite alternate;
   }
 </style>
+
+    <script is:inline>
+    // Fondo animado tipo partículas/líneas neón
+    const canvas = document.getElementById('neon-bg');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      // Partículas
+      const particles = Array.from({length: 32}, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 1.5 + Math.random() * 2.5,
+        dx: (Math.random() - 0.5) * 0.7,
+        dy: (Math.random() - 0.5) * 0.7,
+        color: `hsl(${120 + Math.random()*120}, 80%, 60%)`
+      }));
+      function draw() {
+        ctx.clearRect(0,0,w,h);
+        for (const p of particles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 16;
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 0.35;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.x < 0 || p.x > w) p.dx *= -1;
+          if (p.y < 0 || p.y > h) p.dy *= -1;
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+    </script>

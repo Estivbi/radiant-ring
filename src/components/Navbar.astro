@@ -2,13 +2,12 @@
 ---
 
 <header class="fixed w-full bg-gray-900/90 backdrop-blur-md z-50">
-  <div class="container mx-auto flex justify-between items-center py-4">
-  <a href="/" class="text-2xl md:text-3xl font-bold text-gray-100">
+  <div class="container mx-auto flex justify-between items-center py-4 px-3">
+    <a href="/" class="text-2xl md:text-3xl font-bold text-gray-100 pl-1 pr-3">
       Custodio JP
     </a>
-    
     <!-- Menú para móvil -->
-  <button id="menu-toggle" class="md:hidden text-gray-100 focus:outline-none">
+    <button id="menu-toggle" class="md:hidden text-gray-100 focus:outline-none pr-1 pl-3">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
@@ -27,27 +26,36 @@
   </div>
   
   <!-- Menú móvil desplegable -->
-  <div id="mobile-menu" class="hidden md:hidden bg-gray-900/95 backdrop-blur-md">
-    <nav class="container mx-auto py-6">
+  <div id="mobile-menu" class="hidden md:hidden bg-transparent backdrop-blur-md transition-opacity duration-500 opacity-0 px-4">
+  <nav class="container mx-auto py-6">
       <ul class="flex flex-col gap-4">
-  <li><a href="/#libros" class="block py-2 hover:text-gray-300 transition-colors text-gray-100">Libros</a></li>
-  <li><a href="/#autor" class="block py-2 hover:text-gray-300 transition-colors text-gray-100">Autor</a></li>
-  <!-- Blog link hidden from mobile menu (page still exists) -->
-  <!-- <li><a href="/blog" class="block py-2 hover:text-gray-300 transition-colors text-gray-100">Blog</a></li> -->
-  <li><a href="/#contacto" class="block py-2 hover:text-gray-300 transition-colors text-gray-100">Contacto</a></li>
+  <li><a href="/#libros" class="block py-2 px-4 rounded-lg hover:bg-gray-100/10 hover:text-gray-200 transition-colors text-white">Libros</a></li>
+  <li><a href="/#autor" class="block py-2 px-4 rounded-lg hover:bg-gray-100/10 hover:text-gray-200 transition-colors text-white">Autor</a></li>
+        <!-- Blog link hidden from mobile menu (page still exists) -->
+        <!-- <li><a href="/blog" class="block py-2 px-4 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors text-gray-900">Blog</a></li> -->
+  <li><a href="/#contacto" class="block py-2 px-4 rounded-lg hover:bg-gray-100/10 hover:text-gray-200 transition-colors text-white">Contacto</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <script>
-  // Toggle para el menú móvil
+  // Toggle para el menú móvil con fade
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
-  
+  let menuOpen = false;
   if (menuToggle && mobileMenu) {
     menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => mobileMenu.classList.add('opacity-100'), 10);
+        mobileMenu.classList.remove('opacity-0');
+      } else {
+        mobileMenu.classList.remove('opacity-100');
+        mobileMenu.classList.add('opacity-0');
+        setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+      }
     });
   }
 </script>

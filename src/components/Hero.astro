@@ -2,11 +2,10 @@
 ---
 
 <section id="hero-section" class="relative min-h-screen flex items-center overflow-hidden pt-20 bg-gradient-to-br from-gray-900 via-blue-950 via-gray-950 to-black transition-opacity duration-500">
-  <!-- Estrellas y elementos decorativos de fondo -->
   <!-- Fondo animado tipo neón/partículas -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
     <canvas id="neon-bg" class="w-full h-full absolute inset-0"></canvas>
-    <!-- Planetas decorativos en azul/violeta/gris -->
+    <!-- Planetas decorativos -->
     <div class="absolute top-1/4 right-10 w-32 h-32 rounded-full bg-indigo-500/30 blur-2xl shadow-[0_0_60px_20px_rgba(99,102,241,0.5)]"></div>
     <div class="absolute bottom-1/4 left-10 w-40 h-40 rounded-full bg-blue-500/30 blur-2xl shadow-[0_0_60px_20px_rgba(59,130,246,0.4)]"></div>
     <div class="absolute top-1/3 left-1/4 w-24 h-24 rounded-full bg-gray-400/20 blur-xl shadow-[0_0_40px_10px_rgba(156,163,175,0.2)]"></div>
@@ -37,7 +36,6 @@
               style="z-index:1;" 
             />
           </div>
-          <!-- Sin elementos decorativos verdes -->
         </div>
       </div>
     </div>
@@ -45,7 +43,6 @@
 
 </section>
 <script is:inline>
-// Efecto reveal mejorado: el Hero se desvanece al hacer scroll y deja ver el contenido de la web
 window.addEventListener('scroll', () => {
   const hero = document.getElementById('hero-section');
   if (!hero) return;
@@ -58,7 +55,6 @@ window.addEventListener('scroll', () => {
 
 
 <style>
-  /* Glow animado más suave para el título */
   @keyframes glow-soft {
     0%, 100% { text-shadow: 0 0 8px #22c55e55, 0 0 16px #22c55e22; }
     50% { text-shadow: 0 0 16px #22c55e55, 0 0 24px #22c55e33; }

@@ -30,9 +30,13 @@ const {
 		{Astro.props.metaImage ? <meta property="og:image" content={Astro.props.metaImage} /> : null}
 		<meta property="og:title" content={Astro.props.title} />
 		<meta property="og:description" content={Astro.props.description} />
+		<meta property="og:image" content="/preview.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://www.custodiojoseperez.com" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={Astro.props.title} />
 		<meta name="twitter:description" content={Astro.props.description} />
+		<meta name="twitter:image" content="/preview.png" />
 		{Astro.props.metaImage ? <meta name="twitter:image" content={Astro.props.metaImage} /> : null}
 
 		{Astro.props.jsonLd ? <script type="application/ld+json">{JSON.stringify(Astro.props.jsonLd)}</script> : null}

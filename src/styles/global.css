@@ -13,3 +13,23 @@
     letter-spacing: 1px;
   }
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #18181b;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #27272a 40%, #3b3b46 100%);
+  border-radius: 8px;
+  border: 2px solid #18181b;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #3b3b46 #18181b;
+}

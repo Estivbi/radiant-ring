@@ -6,6 +6,7 @@ interface Book {
   description: string;
   price: number;
   buyLink: string;
+  objectFit?: 'cover' | 'contain';
 }
 
 interface Props {
@@ -26,23 +27,23 @@ const { books } = Astro.props;
       </p>
     </div>
     
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
       {books.map((book) => (
           <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-xl overflow-hidden shadow-2xl group transition-all duration-300 hover:scale-102 hover:shadow-3xl">
-          <div class="relative overflow-hidden aspect-[4/5]">
+          <div class="relative overflow-hidden aspect-[3/4]">
             <img 
               src={book.cover} 
               alt={`Portada del libro ${book.title}`}
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              class={`w-full h-full ${book.objectFit === 'contain' ? 'object-contain' : 'object-cover'} transition-transform duration-500 group-hover:scale-105`}
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
-              <div class="p-6">
-                  <h3 class="text-2xl font-bold mb-2 text-white">{book.title}</h3>
-                  <p class="text-gray-100 mb-4 line-clamp-2">{book.description}</p>
-                  <div class="flex flex-col gap-2 mt-2">
-                    <span class="text-noir-yellow font-semibold">{book.price.toFixed(2)}&euro;</span>
-                    <div class="flex gap-2 mt-2">
-                      <a href={`/books/${book.id}`} class="px-3 py-1 rounded bg-noir-yellow text-gray-900 font-bold hover:bg-yellow-300 transition">Comprar</a>
+              <div class="p-4">
+                  <h3 class="text-lg font-bold mb-1 text-white">{book.title}</h3>
+                  <p class="text-gray-100 mb-2 text-sm line-clamp-2">{book.description}</p>
+                  <div class="flex flex-col gap-1 mt-1">
+                    <span class="text-noir-yellow font-semibold text-sm">{book.price.toFixed(2)}&euro;</span>
+                    <div class="flex gap-2 mt-1">
+                      <a href={`/books/${book.id}`} class="px-3 py-1 text-sm rounded bg-noir-yellow text-gray-900 font-bold hover:bg-yellow-300 transition">Comprar</a>
                     </div>
                   </div>
               </div>

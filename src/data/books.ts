@@ -6,32 +6,38 @@ export interface Book {
   price: number;
   buyLink: string;
   amazonUrl?: string;
+  objectFit?: 'cover' | 'contain';
 }
 
 export const books: Book[] = [
+    {
+    id: "andalucia-negra",
+    title: "Andalucía negra: Trilogía: Granada oscura",
+    cover: "/andalucia-negra.png",
+    objectFit: 'contain',
+    description: `En el corazón de Andalucía, donde las sombras del pasado nunca descansan, un grupo de investigadores (los inspectores Juan Gutiérrez y Javi Gómez, junto con la agente de la Guardia Civil Silvia y Alba) se adentra en una serie de crímenes tan oscuros como las raíces que los engendran.
+      Desde Granada oscura, pasando por El mar de los olivos, hasta el desenlace en El triángulo del sur, la trilogía Andalucía negra entrelaza asesinatos rituales, bebés robados, conspiraciones familiares y heridas abiertas desde la Guerra Civil. Cada caso revela una verdad más profunda, una amenaza más personal y un enemigo más cercano. 
+      Entre leyendas locales que se vuelven reales, venganzas ocultas bajo siglos de silencio y una tierra que reclama justicia, los protagonistas deberán enfrentarse no solo al crimen, sino también a sí mismos.
+      Custodio construye un universo hipnótico y visual donde la ley tiene un precio y el pasado nunca muere del todo.
+      Una saga implacable en la que cada sombra es un secreto y cada calle una traición.`,
+    price: 19.85,
+    buyLink:
+      "https://www.amazon.es/Andaluc%C3%ADa-negra-Trilog%C3%ADa-tri%C3%A1ngulo-Historias-ebook/dp/B0FZWLMVPM?ref_=ast_author_dp&th=1&psc=1",
+  },
   {
     id: "granada-oscura",
     title: "Granada Oscura",
     cover: "/granada-oscura.png",
     description: `Granada oculta más de lo que puedes imaginar...
-
-Desde los oscuros corredores de la justicia en Galicia hasta las misteriosas y laberínticas calles de Granada, Juan, un perspicaz detective, se halla inmerso en una ola de crimenes escalofriantes.
-
-Junto a su compañero, la sangre se despliega en un enigma de muertes cuya resolución se convierte en su única obsesión.
-
-Pero en Granada hay mucho más que sangre fría y misterio.
-
-Hay magia, encanto... y Alba.
-
-Su acento melódico de Sevilla y la belleza del atardecer andaluz, cautivará a Juan. En medio de la sombra del crimen, surge un rayo de luz, una pasión inesperada... ¿Pero, puede florecer el amor en un jardin manchado de rojo?
-
-Lo que Juan no sabe, es que Granada esconde una trama más oscura de lo que pudo imaginar. Y Alba, puede ser la clave de todo.
-
-Entre acordes de rock clásico y metal, en una danza de sexo, suspense y muerte, Juan se adentra en una investigación que pondrá a prueba no solo su ingenio, sino también su corazón.
-
-¿Estás preparado para perder el aliento y el corazón en las calles de Granada?
-
-Siente la magia de esta ciudad. No hay pausas en este thriller. Solo hay una regla: sigue el ritmo... si puedes.`,
+      Desde los oscuros corredores de la justicia en Galicia hasta las misteriosas y laberínticas calles de Granada, Juan, un perspicaz detective, se halla inmerso en una ola de crimenes escalofriantes.
+      Junto a su compañero, la sangre se despliega en un enigma de muertes cuya resolución se convierte en su única obsesión.
+      Pero en Granada hay mucho más que sangre fría y misterio.
+      Hay magia, encanto... y Alba.
+      Su acento melódico de Sevilla y la belleza del atardecer andaluz, cautivará a Juan. En medio de la sombra del crimen, surge un rayo de luz, una pasión inesperada... ¿Pero, puede florecer el amor en un jardin manchado de rojo?
+      Lo que Juan no sabe, es que Granada esconde una trama más oscura de lo que pudo imaginar. Y Alba, puede ser la clave de todo.
+      Entre acordes de rock clásico y metal, en una danza de sexo, suspense y muerte, Juan se adentra en una investigación que pondrá a prueba no solo su ingenio, sino también su corazón.
+      ¿Estás preparado para perder el aliento y el corazón en las calles de Granada?
+      Siente la magia de esta ciudad. No hay pausas en este thriller. Solo hay una regla: sigue el ritmo... si puedes.`,
     price: 13.9,
     buyLink:
       "https://www.amazon.es/granada-oscura-segunda-edici%C3%B3n-revisada/dp/B0CWHG9KZZ/ref=monarch_sidesheet_title",
@@ -60,7 +66,15 @@ Siente la magia de esta ciudad. No hay pausas en este thriller. Solo hay una reg
     id: "unas-navidades-diferentes",
     title: "Unas navidades diferentes",
     cover: "/unas-navidades-diferentes.jpg",
-    description: `En esta obra dos escritores han buceado desde sus particulares miradas, en las señaladas fechas de las entrañables Navidades para encontrar lo que se esconde tras el espumillón, el champán y las guirnaldas. Un esmerado trabajo en el que han escrudiñado más allá de la pátina que cubre las vivencias, las emociones y el paso del tiempo, en busca de lo sé que oculta dentro la realidad de lo que sucede en el corazón de una familia. Encontrarás los restos de la añoranza que sienten por aquellos que ya no están, aunque permanecen en el recuerdo de quienes los han querido. La sorpresa y la inocencia de una niña que disfruta por primera vez de estas fiestas desterrada la soledad de los años anteriores, despertará en ti la emoción y la ternura. Recorrerás en estas líneas los silencios provocados por comportamientos erróneos, el daño que causa la negligencia, y como consecuencia la decepción vivir fingiendo ser quién no eres para los demás, pero sobre todo en sí mismo. No podrás dejar a un lado los resultados a los que la manipulación de lo externo, somete a uno de los personajes. El cual vive más pendiente de efímeras apariencias, que de interiores fortalezas. Pagará por ello un tributo emocional nada baladí. La sombra de una relación inapropiada sobrevuela la paz de esta familia. Cuestiona el hastío que el paso de tiempo puede provocar cuando el amor se deja arrastrar por lo cotidiano, y no se esfuerza en su esencia. Pero también dejará a la intemperie la conciencia de la partícipe. Hay conductas equivocadas del pretérito que dejan una huella indeleble para el resto de la vida. Una advertencia para no volver a traspasar líneas peligrosas. Todo este relato está aderezado por los símbolos habituales de estos días. Las luces, la música, los escaparates sembrados de rojos y dorados, las comidas suculentas, el tiempo compartido, quizá un consumismo exacerbado, y por supuesto la llegada de los Reyes Magos.`,
+    description: `En esta obra dos escritores han buceado desde sus particulares miradas, en las señaladas fechas de las entrañables Navidades para encontrar lo que se esconde tras el espumillón, el champán y las guirnaldas.
+      Un esmerado trabajo en el que han escrudiñado más allá de la pátina que cubre las vivencias, las emociones y el paso del tiempo, en busca de lo sé que oculta dentro la realidad de lo que sucede en el corazón de una familia.
+      Encontrarás los restos de la añoranza que sienten por aquellos que ya no están, aunque permanecen en el recuerdo de quienes los han querido.
+      La sorpresa y la inocencia de una niña que disfruta por primera vez de estas fiestas desterrada la soledad de los años anteriores, despertará en ti la emoción y la ternura.
+      Recorrerás en estas líneas los silencios provocados por comportamientos erróneos, el daño que causa la negligencia, y como consecuencia la decepción vivir fingiendo ser quién no eres para los demás, pero sobre todo en sí mismo.
+      No podrás dejar a un lado los resultados a los que la manipulación de lo externo, somete a uno de los personajes. El cual vive más pendiente de efímeras apariencias, que de interiores fortalezas. Pagará por ello un tributo emocional nada baladí.
+      La sombra de una relación inapropiada sobrevuela la paz de esta familia. Cuestiona el hastío que el paso de tiempo puede provocar cuando el amor se deja arrastrar por lo cotidiano, y no se esfuerza en su esencia.
+      Pero también dejará a la intemperie la conciencia de la partícipe. Hay conductas equivocadas del pretérito que dejan una huella indeleble para el resto de la vida. Una advertencia para no volver a traspasar líneas peligrosas.
+      Todo este relato está aderezado por los símbolos habituales de estos días. Las luces, la música, los escaparates sembrados de rojos y dorados, las comidas suculentas, el tiempo compartido, quizá un consumismo exacerbado, y por supuesto la llegada de los Reyes Magos.`,
     price: 12.5,
     buyLink:
       "https://www.amazon.es/Unas-navidades-diferentes-Custodio-P%C3%A9rez-ebook/dp/B0DPJ1RV16?ref_=ast_author_dp&th=1&psc=1",

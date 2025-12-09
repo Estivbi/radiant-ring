@@ -4,7 +4,7 @@ Landing page moderna y visualmente impactante para el escritor Custodio José P�
 
 ## 🚀 Características principales
 
-- Diseño creativo, oscuro y elegante con detalles geek
+- Diseño creativo
 - Hero animado con partículas y degradados oscuros
 - Sección de libros con vistas individuales
 - Biografía del autor

@@ -24,7 +24,9 @@ export const GET: APIRoute = async ({ request }) => {
   const given = (request.headers.get('authorization') || '').replace(/^Bearer /, '');
   if (!secret || !given || !timingSafeEqual(sha(given), sha(secret))) return new Response('Unauthorized', { status: 401 });
   if (!metricsEnabled()) return new Response('Métricas no configuradas', { status: 500 });
-  const to = env('REPORT_TO') || env('CONTACT_TO');
+  // Solo a REPORT_TO (quien revisa el informe antes de reenviarlo). Sin valor por defecto a propósito:
+  // nunca debe llegarle por error a quien recibe los mensajes del formulario.
+  const to = env('REPORT_TO');
   if (!to) return new Response('Falta REPORT_TO', { status: 500 });
 
   // Mes anterior completo y el anterior a ese, para comparar.

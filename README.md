@@ -11,14 +11,14 @@ Por defecto sigue al sistema (`prefers-color-scheme`); el botón de la barra alt
 ## Métricas
 - **Visitas y páginas:** Vercel Analytics (sin cookies), en el panel de Vercel → Analytics.
 - **Clics (Amazon por libro, Instagram, entrevistas, pedidos de ejemplar firmado, mensajes enviados):** contadores anónimos propios en Upstash Redis (`/api/track`), solo eventos de una lista cerrada, con comprobación de origen y límite por IP.
-- **Panel para Custodio:** `/estadisticas?key=STATS_KEY` (variable de entorno `STATS_KEY`; página `noindex`, sin caché y con límite de intentos).
+- **No hay panel público**: las cifras solo se ven en el informe mensual por correo (ver abajo).
 - Las **compras reales** ocurren en Amazon y la web no las ve: se contrastan los clics con el panel de KDP.
 
 ## Correo (formulario e informe)
 `src/lib/mail.ts` envía por **SMTP** (Gmail, Outlook, tu hosting…) con `SMTP_*`; Resend solo si no hay SMTP. Cada mensaje del formulario llega al buzón de `CONTACT_TO` con `Reply-To` = la persona que escribió, así que «Responder» contesta directo.
 
 ## Informe mensual
-`vercel.json` programa `GET /api/cron-report` el día 1 de cada mes (07:17 UTC). Está protegido con `CRON_SECRET` (Vercel envía `Authorization: Bearer`) y manda a `REPORT_TO` (o `CONTACT_TO`) el resumen del mes anterior con la comparación respecto al anterior.
+`vercel.json` programa `GET /api/cron-report` el día 1 de cada mes (07:17 UTC). Está protegido con `CRON_SECRET` (Vercel envía `Authorization: Bearer`) y manda **solo a `REPORT_TO`** (obligatorio, sin valor por defecto) el resumen del mes anterior con la comparación respecto al anterior. La persona que lo recibe lo revisa y lo reenvía a Custodio. Para generarlo a demanda: `curl -A "Mozilla/5.0" -H "Authorization: Bearer $CRON_SECRET" https://www.custodiojoseperez.com/api/cron-report` (envía el correo a `REPORT_TO`).
 
 ## Google Search Console
 Verifica el dominio en https://search.google.com/search-console (recomendado: registro DNS TXT; alternativa: pon el código de la metaetiqueta en `PUBLIC_GSC_VERIFICATION`) y envía `https://www.custodiojoseperez.com/sitemap.xml`.

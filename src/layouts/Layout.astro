@@ -1,52 +1,94 @@
 ---
-
 import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '@vercel/analytics/astro';
 
-interface Props {
-	title?: string;
-	description?: string;
-	metaImage?: string;
-	jsonLd?: any;
-}
-
-const { 
-	title = 'Custodio José Pérez Pérez - Escritor', 
-	description = 'Custodio José Pérez Pérez es escritor nacido en Extremadura. Sus historias exploran los secretos, la vida rural y la complejidad humana. Descubre sus libros, entrevistas y trayectoria personal.' 
+interface Props { title?: string; description?: string; image?: string; jsonLd?: object | object[]; noindex?: boolean; }
+const SITE = 'https://www.custodiojoseperez.com';
+const {
+  title = 'Custodio José Pérez Pérez · Escritor de novela negra',
+  description = 'Custodio José Pérez Pérez, autor de la saga de novela negra Andalucía negra (Granada oscura, Mitos y leyendas del mar de olivos, El triángulo del sur). Libros, entrevistas y contacto.',
+  image = '/preview.png',
+  jsonLd,
+  noindex = false,
 } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE).href;
+const img = new URL(image, SITE).href;
+const ld = [
+  { '@context': 'https://schema.org', '@type': 'Person', name: 'Custodio José Pérez Pérez', url: SITE, jobTitle: 'Escritor',
+    sameAs: ['https://instagram.com/custodio.perezperez'] },
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
 ---
-
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		<title>{title}</title>
-
-		{Astro.props.metaImage ? <meta property="og:image" content={Astro.props.metaImage} /> : null}
-		<meta property="og:title" content={Astro.props.title} />
-		<meta property="og:description" content={Astro.props.description} />
-		<meta property="og:image" content="/preview.png" />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://www.custodiojoseperez.com" />
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={Astro.props.title} />
-		<meta name="twitter:description" content={Astro.props.description} />
-		<meta name="twitter:image" content="/preview.png" />
-		{Astro.props.metaImage ? <meta name="twitter:image" content={Astro.props.metaImage} /> : null}
-
-		{Astro.props.jsonLd ? <script type="application/ld+json">{JSON.stringify(Astro.props.jsonLd)}</script> : null}
-		<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-	</head>
-		<body class="bg-gray-300 text-gray-900 min-h-screen flex flex-col overflow-x-hidden">
-		<main class="flex-grow w-full max-w-full">
-			<slot />
-		</main>
-			<Footer />
-			<Analytics />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4efe4" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {import.meta.env.PUBLIC_GSC_VERIFICATION && <meta name="google-site-verification" content={import.meta.env.PUBLIC_GSC_VERIFICATION} />}
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow, noai, noimageai' : 'index, follow, noai, noimageai'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Custodio José Pérez Pérez" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={img} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={img} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Tema: preferencia guardada > sistema. Se aplica antes de pintar para evitar parpadeo.
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col overflow-x-hidden">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-bone focus:text-ink-950 focus:px-4 focus:py-2 focus:rounded">Saltar al contenido</a>
+    <Navbar />
+    <main id="main" class="flex-grow"><slot /></main>
+    <Footer />
+    <Analytics />
+    <script is:inline>
+      // Métricas anónimas: sin cookies ni datos personales. Cualquier elemento con data-track="evento[:id]".
+      (function () {
+        function send(e) {
+          try { fetch('/api/track', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e: e }) }); } catch (x) {}
+        }
+        try { if (!sessionStorage.getItem('v')) { sessionStorage.setItem('v', '1'); send('visit'); } } catch (x) {}
+        document.addEventListener('click', function (ev) {
+          var el = ev.target && ev.target.closest && ev.target.closest('[data-track]');
+          if (el) send(el.getAttribute('data-track'));
+        }, true);
+      })();
+    </script>
+    <script is:inline>
+      // Reveal on scroll
+      (function () {
+        var els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        els.forEach(function (e) { io.observe(e); });
+      })();
+    </script>
+  </body>
 </html>

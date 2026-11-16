@@ -4,10 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: { 950: '#09090b', 900: '#101013', 800: '#17171c', 700: '#222229', 600: '#34343d' },
-        bone: { DEFAULT: '#ece6da', dim: '#b5ae9f', mute: '#7d7869' },
-        blood: { DEFAULT: '#b3262d', bright: '#d8363f', deep: '#5e1216' },
-        brass: '#c9a45c',
+        // Colores definidos como variables CSS (global.css) para poder cambiar de tema.
+        ink: { 950: 'rgb(var(--ink-950) / <alpha-value>)', 900: 'rgb(var(--ink-900) / <alpha-value>)', 800: 'rgb(var(--ink-800) / <alpha-value>)', 700: 'rgb(var(--ink-700) / <alpha-value>)', 600: 'rgb(var(--ink-600) / <alpha-value>)' },
+        bone: { DEFAULT: 'rgb(var(--bone) / <alpha-value>)', dim: 'rgb(var(--bone-dim) / <alpha-value>)', mute: 'rgb(var(--bone-mute) / <alpha-value>)' },
+        blood: { DEFAULT: 'rgb(var(--blood) / <alpha-value>)', bright: 'rgb(var(--blood-bright) / <alpha-value>)', deep: 'rgb(var(--blood-deep) / <alpha-value>)' },
+        brass: 'rgb(var(--brass) / <alpha-value>)',
       },
       fontFamily: {
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],

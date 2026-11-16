@@ -5,6 +5,9 @@ Web del escritor Custodio José Pérez Pérez. Astro 5 + Tailwind + una isla Rea
 ## Comandos
 `npm install` · `npm run dev` (localhost:4321) · `npm run build`
 
+## Tema claro / oscuro
+Por defecto sigue al sistema (`prefers-color-scheme`); el botón de la barra alterna y recuerda la elección en `localStorage`. Los colores son variables CSS en `src/styles/global.css` (`:root` oscuro, `:root[data-theme='light']` claro).
+
 ## Actualizar libros, enlaces y precios
 Todo vive en `src/data/books.ts`. Por libro: `asin` (el enlace limpio `amazon.es/dp/ASIN` se genera solo), `price` (número en € o `null` para mostrar «Ver precio en Amazon») y `priceCheckedAt`.
 

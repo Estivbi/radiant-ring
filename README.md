@@ -14,6 +14,15 @@ Por defecto sigue al sistema (`prefers-color-scheme`); el botón de la barra alt
 - **Panel para Custodio:** `/estadisticas?key=STATS_KEY` (variable de entorno `STATS_KEY`; página `noindex`, sin caché y con límite de intentos).
 - Las **compras reales** ocurren en Amazon y la web no las ve: se contrastan los clics con el panel de KDP.
 
+## Correo (formulario e informe)
+`src/lib/mail.ts` envía por **SMTP** (Gmail, Outlook, tu hosting…) con `SMTP_*`; Resend solo si no hay SMTP. Cada mensaje del formulario llega al buzón de `CONTACT_TO` con `Reply-To` = la persona que escribió, así que «Responder» contesta directo.
+
+## Informe mensual
+`vercel.json` programa `GET /api/cron-report` el día 1 de cada mes (07:17 UTC). Está protegido con `CRON_SECRET` (Vercel envía `Authorization: Bearer`) y manda a `REPORT_TO` (o `CONTACT_TO`) el resumen del mes anterior con la comparación respecto al anterior.
+
+## Google Search Console
+Verifica el dominio en https://search.google.com/search-console (recomendado: registro DNS TXT; alternativa: pon el código de la metaetiqueta en `PUBLIC_GSC_VERIFICATION`) y envía `https://www.custodiojoseperez.com/sitemap.xml`.
+
 ## Actualizar libros, enlaces y precios
 Todo vive en `src/data/books.ts`. Por libro: `asin` (el enlace limpio `amazon.es/dp/ASIN` se genera solo), `price` (número en € o `null` para mostrar «Ver precio en Amazon») y `priceCheckedAt`.
 

@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { incr } from '../../lib/metrics';
+import { sendMail } from '../../lib/mail';
 import { checkFormToken, rateLimit, clientIp, verifyTurnstile, clean, isEmail, spamScore, esc, env } from '../../lib/security';
 
 export const prerender = false;
@@ -61,30 +62,23 @@ export const POST: APIRoute = async ({ request }) => {
   // 8. Heurística de spam / inyección de prompts. Se descarta en silencio.
   if (spamScore(name, message) >= 3) return json({ ok: true });
 
-  // 9. Envío (Resend). Contenido escapado: el mensaje nunca se interpreta como HTML.
-  const key = env('RESEND_API_KEY'), to = env('CONTACT_TO');
-  if (!key || !to) {
+  // 9. Envío. Al pulsar "Responder" en el correo, la respuesta va directa a la persona (replyTo).
+  //    Contenido escapado: el mensaje nunca se interpreta como HTML.
+  const to = env('CONTACT_TO');
+  if (!to) {
     if (import.meta.env.PROD) return json({ ok: false, error: 'server' }, 500);
     console.log('[contact:dev]', { name, email, topic, message });
     return json({ ok: true });
   }
   const labels: Record<string, string> = { lectores: 'Mensaje de lector', prensa: 'Prensa / eventos', compra: 'Compra directa', otro: 'Otro' };
-  try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: env('CONTACT_FROM') || 'Web Custodio <onboarding@resend.dev>',
-        to: [to],
-        reply_to: email,
-        subject: `[Web] ${labels[topic]} — ${name.replace(/[\r\n]/g, ' ')}`,
-        html: `<p><b>${esc(name)}</b> &lt;${esc(email)}&gt;<br>Tema: ${labels[topic]}</p><pre style="white-space:pre-wrap;font:inherit">${esc(message)}</pre>`,
-        text: `${name} <${email}>\nTema: ${labels[topic]}\n\n${message}`,
-      }),
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!r.ok) { console.error('resend', r.status, await r.text()); return json({ ok: false, error: 'server' }, 502); }
-  } catch (e) { console.error('resend', e); return json({ ok: false, error: 'server' }, 502); }
+  const sent = await sendMail({
+    to,
+    replyTo: email,
+    subject: `[Web] ${labels[topic]} — ${name}`,
+    html: `<p><b>${esc(name)}</b> &lt;${esc(email)}&gt;<br>Tema: ${labels[topic]}</p><pre style="white-space:pre-wrap;font:inherit">${esc(message)}</pre><p style="color:#777;font-size:12px">Pulsa «Responder» para contestarle directamente.</p>`,
+    text: `${name} <${email}>\nTema: ${labels[topic]}\n\n${message}\n\n(Pulsa «Responder» para contestarle directamente.)`,
+  });
+  if (!sent) return json({ ok: false, error: 'server' }, 502);
 
   await incr('contact_sent');
   return json({ ok: true });

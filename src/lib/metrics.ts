@@ -42,10 +42,20 @@ export async function incr(event: string) {
 export const metricsEnabled = () => conf() !== null;
 
 /** Últimos `days` días, del más antiguo al más reciente. */
-export async function readDays(days = 30): Promise<{ date: string; data: Record<string, number> }[]> {
+export async function readDays(days = 30) {
+  return readDates(Array.from({ length: days }, (_, i) => day(new Date(Date.now() - (days - 1 - i) * 86400000))));
+}
+
+/** Rango de un mes natural (UTC): month 0-11. Devuelve las fechas AAAA-MM-DD. */
+export function monthDates(year: number, month: number): string[] {
+  const out: string[] = [];
+  for (let d = new Date(Date.UTC(year, month, 1)); d.getUTCMonth() === month; d = new Date(d.getTime() + 86400000)) out.push(day(d));
+  return out;
+}
+
+export async function readDates(dates: string[]): Promise<{ date: string; data: Record<string, number> }[]> {
   const c = conf();
   if (!c) return [];
-  const dates = Array.from({ length: days }, (_, i) => day(new Date(Date.now() - (days - 1 - i) * 86400000)));
   const r = await fetch(`${c.url}/pipeline`, {
     method: 'POST', headers: { Authorization: `Bearer ${c.token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(dates.map((d) => ['HGETALL', `m:${d}`])), signal: AbortSignal.timeout(5000),

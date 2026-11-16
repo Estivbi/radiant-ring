@@ -85,9 +85,9 @@ const complete = books.find((b) => b.id === 'andalucia-negra')!;
           <p>Forma parte de la trilogía <em>Andalucía negra</em>, que continúa con <em>Mitos y leyendas del mar de olivos</em> y cierra con <em>El triángulo del sur</em>.</p>
         </div>
         <dl class="mt-8 grid grid-cols-3 gap-4 border-t border-bone/10 pt-6">
-          <div><dt class="text-sm text-bone-mute">Libros escritos</dt><dd class="font-display text-5xl text-brass">9</dd></div>
-          <div><dt class="text-sm text-bone-mute">Publicados</dt><dd class="font-display text-5xl text-brass">4+</dd></div>
-          <div><dt class="text-sm text-bone-mute">Primera novela</dt><dd class="font-display text-5xl text-brass">2023</dd></div>
+          <div><dt class="text-sm text-bone-mute">Libros escritos</dt><dd class="font-display text-5xl text-brass lining-nums">9</dd></div>
+          <div><dt class="text-sm text-bone-mute">Publicados</dt><dd class="font-display text-5xl text-brass lining-nums">4+</dd></div>
+          <div><dt class="text-sm text-bone-mute">Primera novela</dt><dd class="font-display text-5xl text-brass lining-nums">2023</dd></div>
         </dl>
       </div>
     </div>
@@ -98,8 +98,8 @@ const complete = books.find((b) => b.id === 'andalucia-negra')!;
     <div class="mx-auto max-w-6xl px-5 py-24">
       <div class="reveal"><p class="eyebrow">En los medios</p><h2 class="mt-3 text-5xl">Custodio en La Revuelta</h2></div>
       <div class="mt-10 grid gap-6 md:grid-cols-2">
-        {press.map((p) => (
-          <a href={p.href} target="_blank" rel="noopener noreferrer" class="reveal group relative block overflow-hidden rounded-2xl border border-bone/10">
+        {press.map((p, i) => (
+          <a data-track={`press_click:${i}`} href={p.href} target="_blank" rel="noopener noreferrer" class="reveal group relative block overflow-hidden rounded-2xl border border-bone/10">
             <img src={p.src} alt={p.alt} loading="lazy" decoding="async" width="1600" height="900" class="aspect-video w-full object-cover transition duration-700 group-hover:scale-105" />
             <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-transparent"></div>
             <div class="absolute inset-x-0 bottom-0 p-6">
@@ -119,7 +119,7 @@ const complete = books.find((b) => b.id === 'andalucia-negra')!;
         <p class="eyebrow">Contacto</p>
         <h2 class="mt-3 text-5xl">Escríbele a Custodio</h2>
         <p class="mt-4 text-lg text-bone-dim">¿Has leído la saga? ¿Quieres un ejemplar firmado, una entrevista o invitarle a un evento? Cuéntale.</p>
-        <a href="https://instagram.com/custodio.perezperez" target="_blank" rel="noopener noreferrer" class="btn btn-ghost mt-6">Instagram @custodio.perezperez</a>
+        <a data-track="instagram_click" href="https://instagram.com/custodio.perezperez" target="_blank" rel="noopener noreferrer" class="btn btn-ghost mt-6">Instagram @custodio.perezperez</a>
       </div>
       <div class="reveal"><ContactForm client:visible /></div>
     </div>

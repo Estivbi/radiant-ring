@@ -8,6 +8,12 @@ Web del escritor Custodio José Pérez Pérez. Astro 5 + Tailwind + una isla Rea
 ## Tema claro / oscuro
 Por defecto sigue al sistema (`prefers-color-scheme`); el botón de la barra alterna y recuerda la elección en `localStorage`. Los colores son variables CSS en `src/styles/global.css` (`:root` oscuro, `:root[data-theme='light']` claro).
 
+## Métricas
+- **Visitas y páginas:** Vercel Analytics (sin cookies), en el panel de Vercel → Analytics.
+- **Clics (Amazon por libro, Instagram, entrevistas, pedidos de ejemplar firmado, mensajes enviados):** contadores anónimos propios en Upstash Redis (`/api/track`), solo eventos de una lista cerrada, con comprobación de origen y límite por IP.
+- **Panel para Custodio:** `/estadisticas?key=STATS_KEY` (variable de entorno `STATS_KEY`; página `noindex`, sin caché y con límite de intentos).
+- Las **compras reales** ocurren en Amazon y la web no las ve: se contrastan los clics con el panel de KDP.
+
 ## Actualizar libros, enlaces y precios
 Todo vive en `src/data/books.ts`. Por libro: `asin` (el enlace limpio `amazon.es/dp/ASIN` se genera solo), `price` (número en € o `null` para mostrar «Ver precio en Amazon») y `priceCheckedAt`.
 

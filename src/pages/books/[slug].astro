@@ -62,7 +62,7 @@ const msg = encodeURIComponent(`Hola Custodio, me gustaría comprar un ejemplar 
           <p class="mt-3 text-xs text-bone-mute">Te llevamos a la ficha oficial en Amazon.es. El precio puede variar; el definitivo es el que muestre Amazon.</p>
           <hr class="my-6 border-bone/10" />
           <p class="text-sm text-bone-dim">¿Prefieres un ejemplar firmado directamente por Custodio?</p>
-          <a href={`/?tema=compra&msg=${msg}#contacto`} class="btn btn-ghost mt-3">Pedírselo a Custodio</a>
+          <a data-track={`direct_buy_click:${book.id}`} href={`/?tema=compra&msg=${msg}#contacto`} class="btn btn-ghost mt-3">Pedírselo a Custodio</a>
         </div>
 
         {(prev || next) && (

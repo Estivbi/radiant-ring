@@ -4,13 +4,14 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '@vercel/analytics/astro';
 
-interface Props { title?: string; description?: string; image?: string; jsonLd?: object | object[]; }
+interface Props { title?: string; description?: string; image?: string; jsonLd?: object | object[]; noindex?: boolean; }
 const SITE = 'https://www.custodiojoseperez.com';
 const {
   title = 'Custodio José Pérez Pérez · Escritor de novela negra',
   description = 'Custodio José Pérez Pérez, autor de la saga de novela negra Andalucía negra (Granada oscura, Mitos y leyendas del mar de olivos, El triángulo del sur). Libros, entrevistas y contacto.',
   image = '/preview.png',
   jsonLd,
+  noindex = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE).href;
 const img = new URL(image, SITE).href;
@@ -31,7 +32,7 @@ const ld = [
     <link rel="canonical" href={canonical} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, noai, noimageai" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow, noai, noimageai' : 'index, follow, noai, noimageai'} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content="Custodio José Pérez Pérez" />
@@ -64,6 +65,19 @@ const ld = [
     <main id="main" class="flex-grow"><slot /></main>
     <Footer />
     <Analytics />
+    <script is:inline>
+      // Métricas anónimas: sin cookies ni datos personales. Cualquier elemento con data-track="evento[:id]".
+      (function () {
+        function send(e) {
+          try { fetch('/api/track', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e: e }) }); } catch (x) {}
+        }
+        try { if (!sessionStorage.getItem('v')) { sessionStorage.setItem('v', '1'); send('visit'); } } catch (x) {}
+        document.addEventListener('click', function (ev) {
+          var el = ev.target && ev.target.closest && ev.target.closest('[data-track]');
+          if (el) send(el.getAttribute('data-track'));
+        }, true);
+      })();
+    </script>
     <script is:inline>
       // Reveal on scroll
       (function () {

@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { incr } from '../../lib/metrics';
 import { checkFormToken, rateLimit, clientIp, verifyTurnstile, clean, isEmail, spamScore, esc, env } from '../../lib/security';
 
 export const prerender = false;
@@ -85,6 +86,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!r.ok) { console.error('resend', r.status, await r.text()); return json({ ok: false, error: 'server' }, 502); }
   } catch (e) { console.error('resend', e); return json({ ok: false, error: 'server' }, 502); }
 
+  await incr('contact_sent');
   return json({ ok: true });
 };
 

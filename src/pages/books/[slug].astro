@@ -1,58 +1,77 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
-import BookView from '../../components/BookView.astro';
-import { books } from '../../data/books';
+import BuyButtons from '../../components/BuyButtons.astro';
+import { books, sagaBooks, amazonUrl, formatPrice } from '../../data/books';
 
-export async function getStaticPaths() {
-  return books.map((b) => ({ params: { slug: b.id } }));
+export function getStaticPaths() {
+  return books.map((book) => ({ params: { slug: book.id }, props: { book } }));
 }
+const { book } = Astro.props;
+const price = formatPrice(book.price);
+const paras = book.description.split('\n').filter(Boolean);
+const idx = sagaBooks.findIndex((b) => b.id === book.id);
+const next = idx >= 0 ? sagaBooks[idx + 1] : undefined;
+const prev = idx > 0 ? sagaBooks[idx - 1] : undefined;
+const desc = paras[0].length > 155 ? paras[0].slice(0, 152) + '…' : paras[0];
 
-const { slug } = Astro.params;
-
-const book = books.find((b) => b.id === slug);
-
-if (!book) {
-  Astro.response.status = 404;
-}
-
-// Metadatos y JSON-LD para SEO
-const metaTitle = book ? `${book.title} — Custodio José Pérez Pérez` : 'Libro no encontrado';
-const metaDescription = book
-  ? (book.description.length > 160 ? book.description.slice(0, 157) + '...' : book.description)
-  : 'Libro no encontrado.';
-
-const jsonLd = book
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'Book',
-      name: book.title,
-      description: book.description,
-      image: book.cover,
-      author: {
-        '@type': 'Person',
-        name: 'Custodio José Pérez Pérez',
-      },
-      offers: book.buyLink
-        ? {
-            '@type': 'Offer',
-            url: book.buyLink,
-          }
-        : undefined,
-    }
-  : null;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Book', name: book.title, description: paras.join(' '),
+  image: new URL(book.cover, 'https://www.custodiojoseperez.com').href, inLanguage: 'es',
+  author: { '@type': 'Person', name: 'Custodio José Pérez Pérez' },
+  ...(book.price != null && { offers: { '@type': 'Offer', url: amazonUrl(book.asin), price: book.price.toFixed(2), priceCurrency: 'EUR', availability: 'https://schema.org/InStock' } }),
+};
+const msg = encodeURIComponent(`Hola Custodio, me gustaría comprar un ejemplar firmado de «${book.title}».`);
 ---
+<Layout title={`${book.title} · Custodio José Pérez Pérez`} description={`${book.tagline} ${desc}`} image={book.cover} jsonLd={jsonLd}>
+  <article class="mx-auto max-w-6xl px-5 pb-24 pt-28">
+    <nav aria-label="Migas" class="text-sm text-bone-mute">
+      <a href="/" class="hover:text-bone">Inicio</a> <span class="mx-2">/</span> <a href="/#libros" class="hover:text-bone">Libros</a> <span class="mx-2">/</span> <span class="text-bone-dim">{book.short}</span>
+    </nav>
 
-<Layout title={book ? metaTitle : 'Libro no encontrado'} description={metaDescription} metaImage={book ? book.cover : undefined} jsonLd={jsonLd}>
-  <Navbar />
-  {book ? (
-    <main class="pt-24">
-      <BookView book={book} />
-    </main>
-  ) : (
-    <main class="p-12 text-center text-gray-800">
-      <h1 class="text-3xl font-bold mb-4">Libro no encontrado</h1>
-      <p>Lo sentimos, no hemos encontrado el libro solicitado.</p>
-    </main>
-  )}
+    <div class="mt-8 grid gap-12 md:grid-cols-[2fr_3fr]">
+      <div class="md:sticky md:top-24 md:self-start">
+        <div class="relative mx-auto max-w-xs rounded-xl bg-ink-800 p-4 shadow-2xl shadow-blood/10 ring-1 ring-bone/10">
+          <img src={book.cover} alt={`Portada de ${book.title}`} fetchpriority="high" class="w-full rounded" />
+        </div>
+      </div>
+
+      <div>
+        {book.subtitle && <p class="eyebrow">{book.subtitle}</p>}
+        <h1 class="mt-2 text-5xl leading-tight md:text-6xl">{book.title}</h1>
+        <p class="mt-3 font-display text-2xl italic text-bone-dim">{book.tagline}</p>
+
+        <div class="mt-8 space-y-4 text-lg leading-relaxed text-bone-dim">
+          {paras.slice(0, 2).map((p) => <p>{p}</p>)}
+          {paras.length > 2 && (
+            <details class="group">
+              <summary class="inline-flex cursor-pointer list-none items-center gap-2 text-brass hover:text-bone">
+                <span class="group-open:hidden">Seguir leyendo ↓</span><span class="hidden group-open:inline">Leer menos ↑</span>
+              </summary>
+              <div class="mt-4 space-y-4">{paras.slice(2).map((p) => <p>{p}</p>)}</div>
+            </details>
+          )}
+        </div>
+
+        <div class="mt-10 rounded-2xl border border-bone/10 bg-ink-900 p-6">
+          <p class="eyebrow">Dónde conseguirlo</p>
+          <div class="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <span class="font-display text-4xl">{price ?? 'Precio en Amazon'}</span>
+            <span class="text-sm text-bone-mute">{book.format}{book.priceCheckedAt ? ` · precio a ${book.priceCheckedAt}` : ''}</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-3"><BuyButtons book={book} /></div>
+          <p class="mt-3 text-xs text-bone-mute">Te llevamos a la ficha oficial en Amazon.es. El precio puede variar; el definitivo es el que muestre Amazon.</p>
+          <hr class="my-6 border-bone/10" />
+          <p class="text-sm text-bone-dim">¿Prefieres un ejemplar firmado directamente por Custodio?</p>
+          <a href={`/?tema=compra&msg=${msg}#contacto`} class="btn btn-ghost mt-3">Pedírselo a Custodio</a>
+        </div>
+
+        {(prev || next) && (
+          <div class="mt-10 grid gap-4 sm:grid-cols-2">
+            {prev && <a href={`/books/${prev.id}`} class="rounded-xl border border-bone/10 p-4 hover:border-brass/50"><span class="text-xs text-bone-mute">← Antes</span><br /><span class="font-display text-xl">{prev.short}</span></a>}
+            {next && <a href={`/books/${next.id}`} class="rounded-xl border border-bone/10 p-4 text-right hover:border-brass/50 sm:col-start-2"><span class="text-xs text-bone-mute">Siguiente en la saga →</span><br /><span class="font-display text-xl">{next.short}</span></a>}
+          </div>
+        )}
+      </div>
+    </div>
+  </article>
 </Layout>

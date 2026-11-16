@@ -1,62 +1,18 @@
-# Landing Page de Custodio José Pérez Pérez - Escritor
+# custodiojoseperez.com
 
-Landing page moderna y visualmente impactante para el escritor Custodio José Pérez Pérez, donde muestra y vende sus libros, comparte su biografía y permite el contacto directo con lectores.
+Web del escritor Custodio José Pérez Pérez. Astro 5 + Tailwind + una isla React (formulario) y funciones serverless en Vercel solo para `/api/*`.
 
-## 🚀 Características principales
+## Comandos
+`npm install` · `npm run dev` (localhost:4321) · `npm run build`
 
-- Diseño creativo
-- Hero animado con partículas y degradados oscuros
-- Sección de libros con vistas individuales
-- Biografía del autor
-- Blog
-- Contacto directo (email, Instagram)
-- Totalmente responsive
-- Navbar y footer integrados visualmente con el Hero
+## Actualizar libros, enlaces y precios
+Todo vive en `src/data/books.ts`. Por libro: `asin` (el enlace limpio `amazon.es/dp/ASIN` se genera solo), `price` (número en € o `null` para mostrar «Ver precio en Amazon») y `priceCheckedAt`.
 
-## 🛠️ Tecnologías
+## Formulario y protección anti-abuso
+`POST /api/contact` aplica, en orden: comprobación de Origin → solo JSON ≤ 8 KB → rate limit por IP (8/10 min) y global (60/h) → honeypot → token HMAC firmado con tiempo mínimo de 3 s → Cloudflare Turnstile → validación/saneado estricto → heurística de spam y de inyección de prompts → envío por Resend con contenido escapado.
+Variables en `.env.example`. En producción `FORM_SECRET` y Turnstile son obligatorios (si faltan, el formulario rechaza).
 
-- [Astro](https://astro.build/) – Framework web moderno
-- [Tailwind CSS](https://tailwindcss.com/) – Utilidades CSS
-- [React](https://reactjs.org/) – Para la galería interactiva
-
-## 📦 Estructura del Proyecto
-
-```
-radiant-ring/
-├── public/               # Archivos estáticos (imágenes, favicon, etc.)
-├── src/
-│   ├── assets/           # Imágenes y recursos
-│   ├── components/       # Componentes Astro y React
-│   ├── data/             # Datos de libros
-│   ├── layouts/          # Plantillas de diseño
-│   ├── pages/            # Páginas principales y dinámicas
-│   └── styles/           # Estilos globales
-├── package.json
-├── tailwind.config.mjs
-└── ...
-```
-
-## 🧞 Comandos útiles
-
-| Comando         | Acción                                 |
-| -------------- | -------------------------------------- |
-| `npm install`  | Instala dependencias                   |
-| `npm run dev`  | Servidor local en `localhost:4321`     |
-| `npm run build`| Construye el sitio para producción     |
-| `npm run preview`| Vista previa del build                |
-
-## 📝 Personalización
-
-- Edita los datos en `src/data/`, textos en `src/pages/` y componentes en `src/components/`
-- Cambia imágenes en `public/` y `src/assets/`
-- Ajusta colores en `src/styles/global.css` o en los componentes
-
-## 🎨 Estilo y tono
-
-- Oscuro, elegante y con guiños geek
-- Animaciones sutiles y degradados
-- No formal ni corporativo
-
-## 📚 Créditos
-
-Desarrollado con Astro, Tailwind CSS y React. Por Carolina.
+## Bots, IA y scrapers
+- `public/robots.txt` y `public/ai.txt`: prohíben GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, etc.
+- `vercel.json`: devuelve 403 a esos user-agents y a clientes de scraping genéricos; cabeceras de seguridad (HSTS, CSP, X-Frame-Options…) y `X-Robots-Tag: noai, noimageai`.
+- Recomendado además: en Vercel → Firewall activar **Bot Protection** y **AI Bots** (Managed Rulesets) y una regla de rate limit para `/api/*`.

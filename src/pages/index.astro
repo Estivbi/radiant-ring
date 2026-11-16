@@ -1,55 +1,127 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Hero from '../components/Hero.astro';
-import Welcome from '../components/Welcome.astro';
-import BookSection from '../components/BookSection.astro';
-import { books } from '../data/books';
-import AuthorSection from '../components/AuthorSection.astro';
-import ContactSection from '../components/ContactSection.astro';
-import Gallery from '../components/Gallery';
+import BookCard from '../components/BookCard.astro';
+import BuyButtons from '../components/BuyButtons.astro';
+import ContactForm from '../components/ContactForm';
+import { sagaBooks, otherBooks, books } from '../data/books';
 
-// Datos para la galería
-const galleryImages = [
-  {
-    src: '/custodio-entrevista.jpeg',
-    alt: 'Entrevista en La Revuelta (RTVE) con Custodio',
-    title: 'Entrevista en La Revuelta (RTVE) — 09/10/2025',
-    href: 'https://www.rtve.es/television/20251009/escritor-custodio-perez-revuelta-trabajar-campo-escribir-nueve-libros/16764376.shtml',
-  },
-  {
-    src: '/custodio-revuelta2.png',
-    alt: 'Entrevista en La Revuelta (RTVE) con Custodio en la temporada 2',
-    title: 'Entrevista en La Revuelta (RTVE) — 08/12/2025',
-    href: 'https://www.rtve.es/television/20251208/escritor-custodio-perez-reaparece-entre-lagrimas-como-cambio-vida-revuelta/16849939.shtml',
-  },
+const press = [
+  { src: '/custodio-entrevista.jpeg', alt: 'Custodio en La Revuelta (RTVE)', date: '09/10/2025', title: 'Del campo a la televisión: Custodio en La Revuelta',
+    href: 'https://www.rtve.es/television/20251009/escritor-custodio-perez-revuelta-trabajar-campo-escribir-nueve-libros/16764376.shtml' },
+  { src: '/custodio-revuelta2.png', alt: 'Custodio vuelve a La Revuelta (RTVE)', date: '08/12/2025', title: 'Reaparece en La Revuelta y cuenta cómo cambió su vida',
+    href: 'https://www.rtve.es/television/20251208/escritor-custodio-perez-reaparece-entre-lagrimas-como-cambio-vida-revuelta/16849939.shtml' },
 ];
+const first = sagaBooks[0];
+const complete = books.find((b) => b.id === 'andalucia-negra')!;
 ---
-
 <Layout>
-  <Navbar />
-  <main>
-    <Hero />
-    <Welcome />
-    <BookSection books={books} />
-    
-  <section class="p-16 md:p-20 bg-gray-300">
-  <div class="w-full">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-800 via-gray-600 to-gray-400">
-            Eventos y Galerías
-          </h2>
-          <p class="text-xl text-gray-700 max-w-3xl mx-auto">
-            Momentos especiales y eventos.
-          </p>
-        </div>
-        <div class="w-full">
-          <Gallery client:load images={galleryImages} />
-        </div>
+  <!-- HERO -->
+  <section class="relative isolate flex min-h-[100svh] items-end overflow-hidden md:items-center">
+    <img src="/custodio.png" alt="Custodio José Pérez Pérez" fetchpriority="high"
+      class="absolute inset-y-0 right-0 -z-20 h-full w-full object-cover object-[50%_20%] opacity-60 md:w-[58%] md:opacity-90" />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/10 md:bg-gradient-to-r md:from-ink-950 md:via-ink-950/80 md:to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-ink-950 to-transparent"></div>
+    <div class="mx-auto w-full max-w-6xl px-5 pb-16 pt-32 md:pb-0">
+      <p class="eyebrow">Novela negra · Andalucía</p>
+      <h1 class="mt-4 max-w-2xl text-6xl leading-[0.95] sm:text-7xl md:text-8xl">
+        Custodio José<br /><span class="italic text-blood-bright">Pérez Pérez</span>
+      </h1>
+      <p class="mt-6 max-w-lg text-lg text-bone-dim">
+        Años recogiendo aceitunas. Nueve libros escritos. Una saga de crímenes, leyendas y rock&nbsp;&amp;&nbsp;metal que empieza en Granada.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={`/books/${first.id}`} class="btn btn-primary">Empieza por Granada oscura</a>
+        <a href="#libros" class="btn btn-ghost">Ver todos los libros</a>
       </div>
-    </section>
-    
-    <AuthorSection />
-    <ContactSection />
-  </main>
+      <a href="#prensa" class="mt-10 inline-flex items-center gap-3 text-sm text-bone-dim hover:text-bone">
+        <span class="h-px w-10 bg-brass"></span> Visto en La Revuelta · RTVE
+      </a>
+    </div>
+  </section>
+
+  <!-- SAGA -->
+  <section id="saga" class="mx-auto max-w-6xl px-5 py-24">
+    <div class="reveal max-w-2xl">
+      <p class="eyebrow">La saga</p>
+      <h2 class="mt-3 text-5xl md:text-6xl">Andalucía negra</h2>
+      <p class="mt-4 text-lg text-bone-dim">Tres casos, una misma herida. Asesinatos rituales, bebés robados y venganzas que vienen de la Guerra Civil, con una banda sonora de rock clásico y metal. Léelos en este orden.</p>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {sagaBooks.map((b) => <BookCard book={b} number={b.saga} />)}
+    </div>
+    <div class="reveal mt-8 flex flex-col items-start gap-6 rounded-2xl border border-brass/30 bg-gradient-to-r from-blood-deep/40 to-ink-900 p-6 md:flex-row md:items-center md:p-8">
+      <img src={complete.cover} alt={`Portada de ${complete.title}`} loading="lazy" width="120" height="184" class="h-40 w-auto rounded shadow-xl" />
+      <div class="flex-1">
+        <p class="eyebrow">Todo en uno</p>
+        <h3 class="mt-1 text-3xl">{complete.title}</h3>
+        <p class="mt-2 max-w-xl text-bone-dim">{complete.tagline}</p>
+      </div>
+      <div class="flex flex-wrap gap-2"><BuyButtons book={complete} /><a href={`/books/${complete.id}`} class="btn btn-ghost">Más info</a></div>
+    </div>
+  </section>
+
+  <!-- OTROS LIBROS -->
+  <section id="libros" class="border-y border-bone/10 bg-ink-900/60">
+    <div class="mx-auto max-w-6xl px-5 py-24">
+      <div class="reveal"><p class="eyebrow">Más historias</p><h2 class="mt-3 text-5xl">Fuera de la saga</h2></div>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {otherBooks.map((b) => <BookCard book={b} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTOR -->
+  <section id="autor" class="mx-auto max-w-6xl px-5 py-24">
+    <div class="grid items-center gap-12 md:grid-cols-[2fr_3fr]">
+      <div class="reveal relative mx-auto w-full max-w-sm">
+        <div class="absolute -inset-3 -rotate-3 rounded-2xl border border-brass/40"></div>
+        <img src="/custodio2.png" alt="Custodio José Pérez Pérez" loading="lazy" width="450" height="450" class="relative aspect-square w-full rounded-xl object-cover object-top grayscale-[30%]" />
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">El autor</p>
+        <h2 class="mt-3 text-5xl">Un escritor que nació entre olivos</h2>
+        <div class="mt-6 space-y-4 text-lg text-bone-dim">
+          <p>Tras años trabajando en el campo, mientras recogía aceitunas se me ocurrió mi primera novela, <em>Granada oscura</em>, publicada en febrero de 2023: un thriller psicológico con tintes eróticos ambientado en Andalucía.</p>
+          <p>Forma parte de la trilogía <em>Andalucía negra</em>, que continúa con <em>Mitos y leyendas del mar de olivos</em> y cierra con <em>El triángulo del sur</em>.</p>
+        </div>
+        <dl class="mt-8 grid grid-cols-3 gap-4 border-t border-bone/10 pt-6">
+          <div><dt class="text-sm text-bone-mute">Libros escritos</dt><dd class="font-display text-5xl text-brass">9</dd></div>
+          <div><dt class="text-sm text-bone-mute">Publicados</dt><dd class="font-display text-5xl text-brass">4+</dd></div>
+          <div><dt class="text-sm text-bone-mute">Primera novela</dt><dd class="font-display text-5xl text-brass">2023</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRENSA -->
+  <section id="prensa" class="border-y border-bone/10 bg-ink-900/60">
+    <div class="mx-auto max-w-6xl px-5 py-24">
+      <div class="reveal"><p class="eyebrow">En los medios</p><h2 class="mt-3 text-5xl">Custodio en La Revuelta</h2></div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {press.map((p) => (
+          <a href={p.href} target="_blank" rel="noopener noreferrer" class="reveal group relative block overflow-hidden rounded-2xl border border-bone/10">
+            <img src={p.src} alt={p.alt} loading="lazy" decoding="async" width="1600" height="900" class="aspect-video w-full object-cover transition duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-6">
+              <p class="eyebrow">RTVE · {p.date}</p>
+              <p class="mt-1 font-display text-2xl">{p.title} <span aria-hidden="true">↗</span></p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="mx-auto max-w-6xl px-5 py-24">
+    <div class="grid gap-12 md:grid-cols-[2fr_3fr]">
+      <div class="reveal">
+        <p class="eyebrow">Contacto</p>
+        <h2 class="mt-3 text-5xl">Escríbele a Custodio</h2>
+        <p class="mt-4 text-lg text-bone-dim">¿Has leído la saga? ¿Quieres un ejemplar firmado, una entrevista o invitarle a un evento? Cuéntale.</p>
+        <a href="https://instagram.com/custodio.perezperez" target="_blank" rel="noopener noreferrer" class="btn btn-ghost mt-6">Instagram @custodio.perezperez</a>
+      </div>
+      <div class="reveal"><ContactForm client:visible /></div>
+    </div>
+  </section>
 </Layout>

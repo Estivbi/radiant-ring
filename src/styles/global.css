@@ -3,33 +3,39 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: 'Poppins', system-ui, sans-serif;
-    scroll-behavior: smooth;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bangers', cursive;
-    letter-spacing: 1px;
-  }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; background: #09090b; }
+  body { @apply bg-ink-950 text-bone font-sans antialiased; }
+  h1, h2, h3 { @apply font-display font-semibold tracking-tight text-bone; }
+  ::selection { background: #b3262d; color: #fff; }
+  :focus-visible { outline: 2px solid #c9a45c; outline-offset: 3px; border-radius: 4px; }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  background: #18181b;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #27272a 40%, #3b3b46 100%);
-  border-radius: 8px;
-  border: 2px solid #18181b;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition duration-200 min-h-[44px]; }
+  .btn-primary { @apply bg-blood text-white hover:bg-blood-bright; }
+  .btn-ghost { @apply border border-bone/25 text-bone hover:border-bone/60 hover:bg-bone/5; }
+  .btn-amazon { @apply bg-[#ffb340] text-ink-950 hover:bg-[#ffc15f]; }
+  .eyebrow { @apply text-xs uppercase tracking-[0.28em] text-brass; }
+  .field { @apply w-full rounded-lg border border-bone/[.15] bg-ink-800 px-4 py-3 text-bone placeholder:text-bone-mute focus:border-brass focus:outline-none; }
 }
 
-/* Firefox */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #3b3b46 #18181b;
+/* Grano de película sutil sobre todo el sitio */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
+
+/* Reveal al hacer scroll (se activa solo si hay JS) */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+::-webkit-scrollbar { width: 10px; background: #09090b; }
+::-webkit-scrollbar-thumb { background: #34343d; border-radius: 8px; border: 2px solid #09090b; }
+html { scrollbar-width: thin; scrollbar-color: #34343d #09090b; }
+
+.legal p, .legal li { @apply text-bone-dim leading-relaxed; }
+.legal a { @apply underline hover:text-bone; }

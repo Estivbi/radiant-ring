@@ -1,0 +1,10 @@
+---
+import { amazonUrl, formatPrice, type Book } from '../data/books';
+interface Props { book: Book; size?: 'sm' | 'md'; }
+const { book, size = 'md' } = Astro.props;
+const price = formatPrice(book.price);
+---
+<a href={amazonUrl(book.asin)} target="_blank" rel="noopener noreferrer sponsored" class:list={['btn btn-amazon', size === 'sm' && '!px-4 !py-2']}
+   aria-label={`Comprar ${book.title} en Amazon${price ? ` por ${price}` : ''}`}>
+  {price ? `Comprar en Amazon · ${price}` : 'Ver precio en Amazon'}
+</a>
